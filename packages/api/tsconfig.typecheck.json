@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "checkJs": false,
+    "customConditions": ["types"]
+  },
+  "extends": "./tsconfig.json",
+  "files": [],
+  "include": [
+    "__fixtures__/**/*",
+    "__tests__/**/*",
+    "src/**/**.mts",
+    "typings/**/*",
+    "vitest-env.d.mts"
+  ]
+}

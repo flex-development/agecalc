@@ -1,0 +1,333 @@
+# Continuous Integration
+#
+# References:
+#
+# - https://docs.github.com/actions/learn-github-actions/contexts
+# - https://docs.github.com/actions/learn-github-actions/expressions
+# - https://docs.github.com/actions/using-jobs/using-a-matrix-for-your-jobs
+# - https://docs.github.com/actions/using-workflows/events-that-trigger-workflows#pull_request
+# - https://docs.github.com/actions/using-workflows/events-that-trigger-workflows#push
+# - https://docs.github.com/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch
+# - https://docs.github.com/actions/using-workflows/workflow-commands-for-github-actions
+# - https://docs.github.com/webhooks-and-events/webhooks/webhook-events-and-payloads#pull_request
+# - https://docs.github.com/webhooks-and-events/webhooks/webhook-events-and-payloads#push
+# - https://docs.github.com/webhooks-and-events/webhooks/webhook-events-and-payloads#workflow_dispatch
+# - https://github.com/actions/cache
+# - https://github.com/actions/cache/discussions/650
+# - https://github.com/actions/checkout
+# - https://github.com/actions/upload-artifact
+# - https://github.com/docker/build-push-action
+# - https://github.com/docker/login-action
+# - https://github.com/docker/metadata-action
+# - https://github.com/docker/setup-buildx-action
+# - https://github.com/flex-development/grease
+# - https://github.com/hmarr/debug-action
+# - https://github.com/oven-sh/setup-bun
+
+---
+name: ci
+on:
+  pull_request:
+  push:
+    branches:
+      - feat/**
+      - hotfix/**
+      - main
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  CACHE_PATH: node_modules
+  HUSKY: 0
+  REF: ${{ github.head_ref || github.ref }}
+  REF_NAME: ${{ github.head_ref || github.ref_name }}
+  SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+jobs:
+  preflight:
+    if: |
+      github.event_name == 'pull_request' ||
+      github.event.head_commit.committer.username != 'web-flow'
+    runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.cache-key.outputs.result }}
+    steps:
+      - id: debug
+        name: Print environment variables and event payload
+        uses: hmarr/debug-action@v3.0.0
+      - id: checkout
+        name: Checkout ${{ env.REF_NAME }}
+        uses: actions/checkout@v4.2.2
+        with:
+          persist-credentials: false
+          ref: ${{ env.REF }}
+      - id: bun
+        name: Setup Bun
+        uses: oven-sh/setup-bun@v2.0.2
+        with:
+          bun-version-file: package.json
+      - id: dependencies
+        name: Install dependencies
+        env:
+          BUN_FROZEN_LOCKFILE: ${{ github.actor != vars.DEPENDABOT }}
+        run: bun install ${{ env.BUN_FROZEN_LOCKFILE == 'true' && '--frozen-lockfile' || '' }}
+      - id: cache-key
+        name: Get cache key
+        run: echo "result=${{ runner.os }}-${{ github.run_id }}" >>$GITHUB_OUTPUT
+      - id: cache
+        name: Cache dependencies
+        uses: actions/cache@v4.2.3
+        with:
+          key: ${{ steps.cache-key.outputs.result }}
+          path: ${{ env.CACHE_PATH }}
+  commitlint:
+    needs: preflight
+    runs-on: ubuntu-latest
+    steps:
+      - id: checkout
+        name: Checkout ${{ env.REF_NAME }}
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ env.REF }}
+      - id: bun
+        name: Setup Bun
+        uses: oven-sh/setup-bun@v2.0.2
+        with:
+          bun-version-file: package.json
+      - id: cache
+        name: Restore dependencies cache
+        uses: actions/cache@v4.2.3
+        with:
+          key: ${{ needs.preflight.outputs.cache-key }}
+          path: ${{ env.CACHE_PATH }}
+      - id: lint
+        name: Check commitlint status
+        if: github.run_number != '1'
+        run: bun commitlint --from $SHA~${{ github.event.pull_request.commits || 1 }} --to $SHA
+  format:
+    needs:
+      - commitlint
+      - preflight
+    runs-on: ubuntu-latest
+    steps:
+      - id: checkout
+        name: Checkout ${{ env.REF_NAME }}
+        uses: actions/checkout@v4.2.2
+        with:
+          persist-credentials: false
+          ref: ${{ env.REF }}
+      - id: bun
+        name: Setup Bun
+        uses: oven-sh/setup-bun@v2.0.2
+        with:
+          bun-version-file: package.json
+      - id: cache
+        name: Restore dependencies cache
+        uses: actions/cache@v4.2.3
+        with:
+          key: ${{ needs.preflight.outputs.cache-key }}
+          path: ${{ env.CACHE_PATH }}
+      - id: format
+        name: Check code formatting
+        run: bun check:format
+  lint:
+    needs:
+      - commitlint
+      - preflight
+    runs-on: ubuntu-latest
+    steps:
+      - id: checkout
+        name: Checkout ${{ env.REF_NAME }}
+        uses: actions/checkout@v4.2.2
+        with:
+          persist-credentials: false
+          ref: ${{ env.REF }}
+      - id: bun
+        name: Setup Bun
+        uses: oven-sh/setup-bun@v2.0.2
+        with:
+          bun-version-file: package.json
+      - id: cache
+        name: Restore dependencies cache
+        uses: actions/cache@v4.2.3
+        with:
+          key: ${{ needs.preflight.outputs.cache-key }}
+          path: ${{ env.CACHE_PATH }}
+      - id: lint
+        name: Check lint status
+        run: bun check:lint
+  spelling:
+    needs:
+      - commitlint
+      - preflight
+    runs-on: ubuntu-latest
+    steps:
+      - id: checkout
+        name: Checkout ${{ env.REF_NAME }}
+        uses: actions/checkout@v4.2.2
+        with:
+          persist-credentials: false
+          ref: ${{ env.REF }}
+      - id: bun
+        name: Setup Bun
+        uses: oven-sh/setup-bun@v2.0.2
+        with:
+          bun-version-file: package.json
+      - id: cache
+        name: Restore dependencies cache
+        uses: actions/cache@v4.2.3
+        with:
+          key: ${{ needs.preflight.outputs.cache-key }}
+          path: ${{ env.CACHE_PATH }}
+      - id: spelling
+        name: Check spelling
+        run: bun check:spelling
+  typescript:
+    needs:
+      - commitlint
+      - preflight
+    runs-on: ubuntu-latest
+    env:
+      VITEST_REPORT: ./.vitest-reports/typecheck.blob.json
+    steps:
+      - id: checkout
+        name: Checkout ${{ env.REF_NAME }}
+        uses: actions/checkout@v4.2.2
+        with:
+          persist-credentials: false
+          ref: ${{ env.REF }}
+      - id: bun
+        name: Setup Bun
+        uses: oven-sh/setup-bun@v2.0.2
+        with:
+          bun-version-file: package.json
+      - id: cache
+        name: Restore dependencies cache
+        uses: actions/cache@v4.2.3
+        with:
+          key: ${{ needs.preflight.outputs.cache-key }}
+          path: ${{ env.CACHE_PATH }}
+      - id: version-typescript
+        name: Get TypeScript version
+        run: echo "result=$(jq .devDependencies.typescript package.json -r)" >>$GITHUB_OUTPUT
+      - id: typecheck
+        name: Run typecheck
+        run: bun typecheck
+      - id: report
+        name: Upload report
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: |
+            ${{ format('typecheck-{0}-{1}-{2}.blob.json', steps.version-typescript.outputs.result, github.event.repository.name, env.SHA) }}
+          path: ${{ env.VITEST_REPORT }}
+  test:
+    needs:
+      - commitlint
+      - preflight
+    runs-on: ubuntu-latest
+    env:
+      COVERAGE_SUMMARY: ./coverage/coverage-summary.json
+      NODE_NO_WARNINGS: 1
+      PCT: .total.branches.pct + .total.functions.pct + .total.lines.pct + .total.statements.pct
+      VITEST_REPORT: ./.vitest-reports/test.blob.json
+    steps:
+      - id: checkout
+        name: Checkout ${{ env.REF_NAME }}
+        uses: actions/checkout@v4.2.2
+        with:
+          persist-credentials: false
+          ref: ${{ env.REF }}
+      - id: bun
+        name: Setup Bun
+        uses: oven-sh/setup-bun@v2.0.2
+        with:
+          bun-version-file: package.json
+      - id: cache
+        name: Restore dependencies cache
+        uses: actions/cache@v4.2.3
+        with:
+          key: ${{ needs.preflight.outputs.cache-key }}
+          path: ${{ env.CACHE_PATH }}
+      - id: test
+        name: Run tests
+        run: |
+          bun test:cov --coverage.thresholds.100=false \
+          && echo "coverage=$(jq '${{ env.PCT }}' ${{ env.COVERAGE_SUMMARY }} -r)" >>$GITHUB_OUTPUT
+      - id: pct
+        name: Print coverage points
+        run: echo ${{ steps.test.outputs.coverage }}
+      - id: report
+        name: Upload report
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: ${{ format('test-{0}-{1}.blob.json', github.event.repository.name, env.SHA) }}
+          path: ${{ env.VITEST_REPORT }}
+      - id: coverage-summary
+        name: Upload coverage summary
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: |
+            ${{ format('coverage-summary-{0}-{1}.json', github.event.repository.name, env.SHA) }}
+          path: ${{ env.COVERAGE_SUMMARY }}
+      - id: coverage-failure
+        if: steps.test.outputs.coverage != '400'
+        name: Coverage threshold failure (${{ steps.test.outputs.coverage }})
+        run: bun test:cov:reports
+  artifacts:
+    needs:
+      - commitlint
+      - format
+      - lint
+      - preflight
+      - spelling
+      - test
+      - typescript
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - api
+    steps:
+      - id: checkout
+        name: Checkout ${{ env.REF_NAME }}
+        uses: actions/checkout@v4.2.2
+        with:
+          persist-credentials: false
+          ref: ${{ env.REF }}
+      - id: workspace-dir
+        name: Get workspace directory
+        run: echo "result=packages/${{ matrix.package }}" >>$GITHUB_OUTPUT
+      - id: version
+        name: Get manifest version
+        run: |
+          echo "result=$(jq .version ${{ steps.workspace-dir.outputs.result }}/package.json -r)" >>$GITHUB_OUTPUT
+      - id: tarball
+        name: Get tarball path
+        run: |
+          echo "result=${{ startsWith(github.head_ref || github.ref_name, 'release/') && format('@{0}-{1}-{2}-{3}.tgz', github.repository_owner, github.event.repository.name, matrix.package, steps.version.outputs.result) || format('@{0}-{1}-{2}-{3}+{4}.tgz', github.repository_owner, github.event.repository.name, matrix.package, steps.version.outputs.result, github.event.pull_request.head.sha || github.sha) }}" >>$GITHUB_OUTPUT
+      - id: bun
+        name: Setup Bun
+        uses: oven-sh/setup-bun@v2.0.2
+        with:
+          bun-version-file: package.json
+      - id: cache
+        name: Restore dependencies cache
+        uses: actions/cache@v4.2.3
+        with:
+          key: ${{ needs.preflight.outputs.cache-key }}
+          path: ${{ env.CACHE_PATH }}
+      - id: pack
+        name: Pack project
+        run: |
+          bun --cwd=${{ steps.workspace-dir.outputs.result }} pm pack --filename ${{ steps.tarball.outputs.result }}
+      - id: archive
+        name: Archive production artifacts
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: ${{ steps.tarball.outputs.result }}
+          path: ${{ steps.tarball.outputs.result }}

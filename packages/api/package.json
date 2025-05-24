@@ -1,0 +1,80 @@
+{
+  "name": "@flex-development/agecalc-api",
+  "description": "Age calculator API",
+  "version": "0.0.0",
+  "keywords": [
+    "bun",
+    "docker",
+    "fastify",
+    "nestjs",
+    "typescript"
+  ],
+  "license": "BSD-3-Clause",
+  "homepage": "https://github.com/flex-development/agecalc",
+  "repository": {
+    "directory": "packages/api",
+    "type": "git",
+    "url": "git+https://github.com/flex-development/agecalc.git"
+  },
+  "bugs": "https://github.com/flex-development/agecalc/issues",
+  "author": {
+    "name": "Lexus Drumgold",
+    "url": "https://github.com/unicornware"
+  },
+  "type": "module",
+  "files": [
+    ".dockerignore",
+    "CHANGELOG.md",
+    "Dockerfile",
+    "README.md",
+    "docker-compose.yml",
+    "src",
+    "tsconfig.json"
+  ],
+  "exports": {
+    "./package.json": "./package.json",
+    "./types": "./src/types.mts"
+  },
+  "imports": {
+    "#app": "./src/app.mts",
+    "#enums/*": "./src/enums/*.mts",
+    "#fixtures/*": "./__fixtures__/*.mts",
+    "#hooks/*": "./src/hooks/*.mts",
+    "#interfaces/*": "./src/interfaces/*.mts",
+    "#models/*": "./src/models/*.mts",
+    "#modules/*": "./src/modules/*.mts",
+    "#tests/*": "./__tests__/*.mts",
+    "#types/*": "./src/types/*.mts"
+  },
+  "scripts": {
+    "build": "docker build -t ghcr.io/flex-development/agecalc-api:build .",
+    "serve": "cross-env NEST_DEBUG=1 bun run ./src/main.mts",
+    "serve:watch": "cross-env NEST_DEBUG=1 bun run --conditions=development --watch ./src/main.mts",
+    "start": "docker run --env FORCE_COLOR=3 --env NEST_DEBUG=1 --rm -ip 4000:8080 ghcr.io/flex-development/agecalc-api:build",
+    "start:dev": "docker compose up"
+  },
+  "dependencies": {
+    "@fastify/static": "8.2.0",
+    "@flex-development/log": "5.0.0-alpha.1",
+    "@flex-development/tutils": "6.0.0-alpha.25",
+    "@nestjs/common": "11.1.1",
+    "@nestjs/config": "4.0.2",
+    "@nestjs/core": "11.1.1",
+    "@nestjs/platform-fastify": "11.1.1",
+    "@nestjs/swagger": "11.2.0",
+    "class-transformer": "0.5.1",
+    "class-validator": "0.14.2",
+    "devlop": "1.1.0",
+    "fastify": "5.3.3",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "11.1.1",
+    "chai-http": "5.1.2"
+  },
+  "openapi": {
+    "description": "Age calculator API",
+    "title": "@flex-development/agecalc-api"
+  }
+}

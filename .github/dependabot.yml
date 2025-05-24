@@ -1,0 +1,56 @@
+# Dependabot Configuration
+#
+# References:
+#
+# - https://docs.github.com/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/configuration-options-for-dependency-updates
+
+---
+version: 2
+enable-beta-ecosystems: true
+updates:
+  - package-ecosystem: bun
+    commit-message:
+      prefix: build
+      include: scope
+    directory: /
+    groups:
+      commitlint:
+        patterns:
+          - '@commitlint/*'
+      fastify:
+        patterns:
+          - '@fastify/*'
+          - fastify
+      flex-development:
+        patterns:
+          - '@flex-development/*'
+      nestjs:
+        patterns:
+          - '@nestjs/*'
+      remark:
+        patterns:
+          - 'remark-*'
+          - remark
+      vitest:
+        patterns:
+          - '@vitest/*'
+          - vitest
+    ignore:
+      - dependency-name: '@types/bun'
+      - dependency-name: bun
+      - dependency-name: bun-types
+    labels:
+      - scope:dependencies
+      - type:build
+    schedule:
+      interval: daily
+  - package-ecosystem: github-actions
+    commit-message:
+      prefix: ci
+      include: scope
+    directory: /
+    labels:
+      - scope:dependencies
+      - type:ci
+    schedule:
+      interval: daily

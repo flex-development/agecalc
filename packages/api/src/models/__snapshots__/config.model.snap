@@ -1,0 +1,40 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`unit:models/Config > constructor > should throw if config is invalid ({ HOST: " " }) 1`] = `
+[
+  ValidationError {
+    "children": [],
+    "constraints": {
+      "isNotEmpty": "HOST should not be empty",
+    },
+    "property": "HOST",
+    "value": "",
+  },
+]
+`;
+
+exports[`unit:models/Config > constructor > should throw if config is invalid ({ HOSTNAME: " " }) 1`] = `
+[
+  ValidationError {
+    "children": [],
+    "constraints": {
+      "isNotEmpty": "HOSTNAME should not be empty",
+    },
+    "property": "HOSTNAME",
+    "value": "",
+  },
+]
+`;
+
+exports[`unit:models/Config > constructor > should throw if config is invalid ({ NODE_ENV: "dev" }) 1`] = `
+[
+  ValidationError {
+    "children": [],
+    "constraints": {
+      "isIn": "NODE_ENV must be one of the following values: development, test, production",
+    },
+    "property": "NODE_ENV",
+    "value": "dev",
+  },
+]
+`;
