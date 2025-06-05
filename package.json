@@ -44,7 +44,7 @@
     "@flex-development/pathe": "4.0.2",
     "@flex-development/remark-preset": "1.0.0",
     "@flex-development/tutils": "6.0.0-alpha.25",
-    "@swc/core": "1.11.29",
+    "@swc/core": "1.11.31",
     "@tsconfig/strictest": "2.0.5",
     "@types/bun": "1.2.14",
     "@types/chai": "5.2.2",
