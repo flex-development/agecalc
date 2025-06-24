@@ -54,7 +54,7 @@
     "bun": "1.2.14",
     "bun-types": "1.2.14",
     "cross-env": "7.0.3",
-    "cspell": "9.1.1",
+    "cspell": "9.1.2",
     "devlop": "1.1.0",
     "dprint": "0.50.0",
     "editorconfig": "3.0.0",
