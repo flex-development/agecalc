@@ -27,7 +27,7 @@
         "cspell": "9.1.2",
         "devlop": "1.1.0",
         "dprint": "0.50.1",
-        "editorconfig": "3.0.0",
+        "editorconfig": "3.0.1",
         "eslint": "9.30.1",
         "growl": "1.10.5",
         "husky": "9.1.7",
@@ -996,7 +996,7 @@
 
     "eastasianwidth": ["eastasianwidth@0.2.0", "", {}, "sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA=="],
 
-    "editorconfig": ["editorconfig@3.0.0", "", { "dependencies": { "@one-ini/wasm": "0.2.0", "commander": "^14.0.0", "minimatch": "10.0.1", "semver": "^7.7.2" }, "bin": { "editorconfig": "bin/editorconfig" } }, "sha512-cU9vLVQ1YmDmLL047KkgQ3Yv9jSI6ZlqW4XjEdG0RrFhz7kYQ5lxD7SfhQci8g1TQu9iMA+54rRLe6yvWxXxcA=="],
+    "editorconfig": ["editorconfig@3.0.1", "", { "dependencies": { "@one-ini/wasm": "0.2.0", "commander": "^14.0.0", "minimatch": "10.0.1", "semver": "^7.7.2" }, "bin": { "editorconfig": "bin/editorconfig" } }, "sha512-k5NZM2XNIJfH/omUv0SRYaiLae4VRwg1ILW6xLOjuP4AQGAGcvzNij5imJ+m1rbzDIH0ov6EbH53BW96amFXpQ=="],
 
     "electron-to-chromium": ["electron-to-chromium@1.5.150", "", {}, "sha512-rOOkP2ZUMx1yL4fCxXQKDHQ8ZXwisb2OycOQVKHgvB3ZI4CvehOd4y2tfnnLDieJ3Zs1RL1Dlp3cMkyIn7nnXA=="],
 
