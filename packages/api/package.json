@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "@fastify/static": "8.2.0",
-    "@flex-development/log": "5.0.0-alpha.4",
+    "@flex-development/log": "5.0.0-alpha.5",
     "@flex-development/tutils": "6.0.0-alpha.25",
     "@nestjs/common": "11.1.6",
     "@nestjs/config": "4.0.2",
