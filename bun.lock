@@ -51,7 +51,7 @@
       "version": "0.0.0",
       "dependencies": {
         "@fastify/static": "8.2.0",
-        "@flex-development/log": "5.0.0-alpha.5",
+        "@flex-development/log": "5.0.0",
         "@flex-development/tutils": "6.0.0-alpha.25",
         "@nestjs/common": "11.1.6",
         "@nestjs/config": "4.0.2",
@@ -406,7 +406,7 @@
 
     "@flex-development/is-unicode-supported": ["@flex-development/is-unicode-supported@1.0.1", "", {}, "sha512-8pSVQNy+/wwkFSVS4sJ2ab2vmpNuaan8e0uWiV39lb8DshuvB0Tzkt9xYzcaa8pf3NyXRR41/y7+2pHoDZ1Wsg=="],
 
-    "@flex-development/log": ["@flex-development/log@5.0.0-alpha.5", "", { "dependencies": { "@flex-development/colors": "1.0.2", "@flex-development/is-unicode-supported": "1.0.1", "@flex-development/pathe": "4.0.2", "@flex-development/tutils": "6.0.0-alpha.25", "devlop": "1.1.0", "node-inspect-extracted": "3.2.0", "string-width": "8.0.0" } }, "sha512-amIAWZOoGdrUGg759QVkyTr1uh/mRbKebnDtl74dnSzIvrCO/TvZ34IOqqAtB0dlfRq+hYyvj7DnKuz3bkexbw=="],
+    "@flex-development/log": ["@flex-development/log@5.0.0", "", { "dependencies": { "@flex-development/colors": "1.0.2", "@flex-development/is-unicode-supported": "1.0.1", "@flex-development/pathe": "4.0.2", "@flex-development/tutils": "6.0.0-alpha.25", "devlop": "1.1.0", "node-inspect-extracted": "3.2.0", "string-width": "8.0.0" } }, "sha512-Oru5o0NFYlTaQh+yZwNjSwPdaiZQ5UK0d5zc+Gb6/KHLxPzGJxvxl0ycCDC3ozWciRCqEeNuA2Dj189WCyYNPg=="],
 
     "@flex-development/mkbuild": ["@flex-development/mkbuild@1.0.0-alpha.23", "", { "dependencies": { "@flex-development/decorator-regex": "2.0.0", "@flex-development/errnode": "2.0.0", "@flex-development/ext-regex": "2.0.0", "@flex-development/mlly": "1.0.0-alpha.18", "@flex-development/pathe": "2.0.0", "@flex-development/pkg-types": "3.0.0", "@flex-development/toggle-pkg-type": "2.0.1", "@flex-development/tsconfig-utils": "2.0.2", "@flex-development/tutils": "6.0.0-alpha.22", "consola": "3.2.3", "cosmiconfig": "8.2.0", "exit-hook": "3.2.0", "fast-glob": "3.3.1", "pretty-bytes": "6.1.1", "tinyrainbow": "1.1.1" }, "peerDependencies": { "@types/node": ">=16.18.23", "esbuild": ">=0.19.0", "typescript": ">=5.0.4" }, "optionalPeers": ["@types/node", "typescript"], "bin": { "mkbuild": "dist/cli.mjs" } }, "sha512-mIfOIOfrc0T5uclEnNnDiTNW5AnI2HyGmXPmsh+gLX8/mauoeWT/BjEGKmdtc0fUOxQdyg/N3RCpMn2T/1Ii0g=="],
 
