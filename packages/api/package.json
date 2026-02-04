@@ -57,11 +57,11 @@
     "@fastify/static": "9.0.0",
     "@flex-development/log": "5.0.0",
     "@flex-development/tutils": "6.0.0-alpha.25",
-    "@nestjs/common": "11.1.12",
-    "@nestjs/config": "4.0.2",
-    "@nestjs/core": "11.1.12",
-    "@nestjs/platform-fastify": "11.1.12",
-    "@nestjs/swagger": "11.2.5",
+    "@nestjs/common": "11.1.13",
+    "@nestjs/config": "4.0.3",
+    "@nestjs/core": "11.1.13",
+    "@nestjs/platform-fastify": "11.1.13",
+    "@nestjs/swagger": "11.2.6",
     "class-transformer": "0.5.1",
     "class-validator": "0.14.3",
     "devlop": "1.1.0",
@@ -70,7 +70,7 @@
     "rxjs": "7.8.2"
   },
   "devDependencies": {
-    "@nestjs/testing": "11.1.12",
+    "@nestjs/testing": "11.1.13",
     "chai-http": "5.1.2"
   },
   "openapi": {
