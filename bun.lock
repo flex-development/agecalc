@@ -33,7 +33,7 @@
         "growl": "1.10.5",
         "husky": "9.1.7",
         "is-ci": "4.1.0",
-        "node-notifier": "11.0.0",
+        "node-notifier": "12.0.0",
         "prettier": "3.9.10",
         "remark": "15.0.1",
         "remark-cli": "12.0.1",
@@ -1637,7 +1637,7 @@
 
     "node-inspect-extracted": ["node-inspect-extracted@3.2.0", "", {}, "sha512-/n4TVgpL2w+3eiOdElLW1quuLq1JOQoCjrEth3EVux/jHCz5M/8BuofbWzYPOxUPtXZYp4LKNiJA9HhlLeyhZw=="],
 
-    "node-notifier": ["node-notifier@11.0.0", "", { "dependencies": { "growly": "^1.3.0", "is-wsl": "^3.1.1" } }, "sha512-C4ePuKXvH+Xd4NpZ4iQyTCEAQDMdVrhH1ntJ4v3pLaIKNuODtM88XyvEcwVceqK54mBzMYlGjkiUHlvtqCdgYg=="],
+    "node-notifier": ["node-notifier@12.0.0", "", { "dependencies": { "growly": "^1.3.0", "is-wsl": "^3.1.1" } }, "sha512-ivl1zYL//aTjkCEAtKUqrmCVy0BzWgU98SLGnVCKwPv0gRLwVpPyHvPDcx9skPP5utvscykCHX2YRH+6SpA2Jw=="],
 
     "node-releases": ["node-releases@2.0.19", "", {}, "sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw=="],
 
