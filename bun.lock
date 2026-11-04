@@ -68,7 +68,7 @@
       },
       "devDependencies": {
         "@nestjs/testing": "12.2.0",
-        "chai-http": "5.1.2",
+        "chai-http": "5.2.1",
       },
     },
   },
@@ -887,7 +887,7 @@
 
     "chai": ["chai@5.2.0", "", { "dependencies": { "assertion-error": "^2.0.1", "check-error": "^2.1.1", "deep-eql": "^5.0.1", "loupe": "^3.1.0", "pathval": "^2.0.0" } }, "sha512-mCuXncKXk5iCLhfhwTc0izo0gtEmpz5CtG2y8GiOINBlMVS6v8TMRc5TaLWKS6692m9+dVVfzgeVxR5UxWHTYw=="],
 
-    "chai-http": ["chai-http@5.1.2", "", { "dependencies": { "@types/superagent": "^8.1.7", "charset": "^1.0.1", "cookiejar": "^2.1.4", "is-ip": "^5.0.1", "methods": "^1.1.2", "qs": "^6.12.1", "superagent": "^10.0.0" } }, "sha512-UFup7mUGkkjmi9bGA7F6vfp3lzGQZjtL//CEd+a4C+vlynSv756XHDUK8PoYk/UpTBBXqSghjQaJOUMUxJXNaA=="],
+    "chai-http": ["chai-http@5.2.1", "", { "dependencies": { "@types/superagent": "^8.1.7", "charset": "^1.0.1", "cookiejar": "^2.1.4", "is-ip": "^5.0.1", "methods": "^1.1.2", "picoquery": "^2.0.0", "superagent": "^10.0.0" } }, "sha512-RD0YerjlS5FA/j2yuJUNb9OjmLmwR7Fm708xiKlZn9LU49c6eEUBgVbecJ3GrF1fTG6oNgSkpI20fyKYGy2H3Q=="],
 
     "chalk": ["chalk@6.0.1", "", {}, "sha512-/Ce6KNm3vIbWdMlNna6RVIZ/ICQxnJxCicet5LBKK9ZffBkqzDw0xh9EiKSljdRtiIQ1S1z4YgcscUUGzNCWrA=="],
 
@@ -1720,6 +1720,8 @@
     "picocolors": ["picocolors@1.1.1", "", {}, "sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA=="],
 
     "picomatch": ["picomatch@4.0.4", "", {}, "sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A=="],
+
+    "picoquery": ["picoquery@2.5.0", "", {}, "sha512-j1kgOFxtaCyoFCkpoYG2Oj3OdGakadO7HZ7o5CqyRazlmBekKhbDoUnNnXASE07xSY4nDImWZkrZv7toSxMi/g=="],
 
     "pify": ["pify@2.3.0", "", {}, "sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog=="],
 
