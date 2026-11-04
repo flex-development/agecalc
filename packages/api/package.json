@@ -71,7 +71,7 @@
   },
   "devDependencies": {
     "@nestjs/testing": "12.2.0",
-    "chai-http": "5.1.2"
+    "chai-http": "5.2.1"
   },
   "openapi": {
     "description": "Age calculator API",
